@@ -7,6 +7,12 @@
     "types": ["vite/client"],
     "skipLibCheck": true,
 
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/styles/*": ["./src/app/styles/*"],
+      "@/assets/*": ["./src/assets/*"]
+    },
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
