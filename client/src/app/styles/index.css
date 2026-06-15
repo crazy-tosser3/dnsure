@@ -1,6 +1,81 @@
 @import "tailwindcss";
 @import "./fonts.css";
 
+@theme{
+  --color-white-500: oklch(0.99 0.001 33);
+  --color-white-400: oklch(0.96 0.005 33);
+  --color-white-300: oklch(0.9 0.005 33);
+  --color-white-200: oklch(0.8 0.005 33);
+  --color-black-100: oklch(0.2 0.005 33);
+
+  --color-accent-1: oklch(86% 0.14 58);
+  --color-accent-2: oklch(77% 0.21 346);
+  --color-accent-3: oklch(57% 0.24 331);
+
+  --shadow-neu-bottom: 
+  0 2px 4px 0 #99999970;
+  --shadow-neu-soft: 
+  4px 4px 4px -2px #99999970;
+
+  --font-roboto: 'Roboto', Arial;
+}
+
 body{
-  font-family: 'Roboto', Arial;
+  background-color: var(--color-white-500);
+  color: var(--color-black-100);
+
+  font-family: var(--font-roboto);
+}
+
+button{
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+button:hover{
+  cursor: pointer;
+  background-color: var(--color-white-300);
+}
+
+button._active, button.primary{
+  color: var(--color-white-400);
+  background-image: linear-gradient(120deg, var(--color-accent-1), var(--color-accent-2), var(--color-accent-3));
+}
+
+*{
+  scrollbar-color: var(--color-accent-2) transparent; 
+}
+
+*:focus {
+  outline: none;
+}
+
+*:focus-visible{
+  outline: solid 1px var(--color-accent-2);
+  outline-offset: 2px;
+}
+
+*::selection{
+  background-color: var(--color-accent-1);
+  color: var(--color-black-100);
+}
+
+input::placeholder{
+  color: var(--color-white-200);
+}
+
+.bg-gradient-tricolor{
+  background-image: linear-gradient(120deg, var(--color-accent-1), var(--color-accent-2), var(--color-accent-3));
+  color: var(--color-white-400);
+}
+
+.text-gradient-tricolor{
+  background-clip: text;
+  background-image: linear-gradient(120deg, var(--color-accent-1), var(--color-accent-2), var(--color-accent-3));
+  color: transparent;
+}
+
+input[type="search"]::-webkit-search-cancel-button{
+  display: none;
 }

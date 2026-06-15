@@ -1,8 +1,16 @@
+import Home from "@/pages/Home"
+import Header from "@/widgets/Header"
+import { Navigate, Route, Routes } from "react-router-dom"
+
 function App() {
 
   return (
     <>
-      <h1 className="text-3xl font-black">Hello, world!</h1>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/home" element={<Home />} />
+      </Routes>
     </>
   )
 }
