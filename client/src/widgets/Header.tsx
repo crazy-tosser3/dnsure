@@ -1,4 +1,4 @@
-import { FaBars, FaUser } from "react-icons/fa"
+import { FaBars } from "react-icons/fa"
 import { FaX } from "react-icons/fa6"
 import useGlobalStore from "@/stores/globalStore"
 import { useNavigate } from "react-router-dom";
@@ -26,9 +26,6 @@ const Header = () => {
       </button>
       <div className="flex gap-4 ml-auto">
         <ThemeBtn />
-        <button className="p-1 rounded-md" onClick={() => navigate("/profile")}>
-          <FaUser size={24} />
-        </button>
       </div>
     </header>
   )

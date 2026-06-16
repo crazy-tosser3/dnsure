@@ -6,8 +6,8 @@ import { cn } from "@/shared/utils";
 import useGlobalStore from "@/stores/globalStore";
 
 const data = [
-  {ico: <FaEarthEurope size={20} />, title: "Исследовать", url: "/home"},
-  {ico: <FaInfoCircle size={20} />, title: "О нас", url: "/about"},
+  {ico: <FaEarthEurope size={20} />, title: "проверить", url: "/home"},
+  {ico: <FaInfoCircle size={20} />, title: "о нас", url: "/about"},
 ]
 
 function Sidebar() {

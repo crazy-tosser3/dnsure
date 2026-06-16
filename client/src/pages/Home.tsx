@@ -55,9 +55,9 @@ const Home = () => {
       </button>
       <AnimatePresence mode="wait">
         {isSettingsOpen && <motion.div
-        initial={{y: 150, opacity: 0, scale: 0.5}} 
-        animate={{y: 0, opacity: 1, scale: 1}} 
-        exit={{y: 150, opacity: 0, scale: 0.5}}
+        initial={{y: 50, opacity: 0}} 
+        animate={{y: 0, opacity: 1}} 
+        exit={{y: 50, opacity: 0}}
         className="w-full max-w-200 m-auto grid grid-cols-2 gap-3 bg-white-400 p-4 rounded-4xl shadow-neu-soft"
         >
           {toFetchData.map((item:string) => (
