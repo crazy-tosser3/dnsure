@@ -5,7 +5,10 @@ import { FaChevronDown, FaChevronUp, FaRocket } from "react-icons/fa"
 
 const toFetchData = [
   "get",
-  "ping"
+  "ping",
+  "tcp",
+  "traceroute",
+  "lookup",
 ]
 
 const ToFetchBtn = ({title, isOn, onCheck}:{title:string, isOn:boolean, onCheck:(value:boolean)=>void}) => {
@@ -65,6 +68,15 @@ const Home = () => {
             key={item}
             />
           ))}
+          <button className="primary rounded-full justify-center" onClick={() => setToFetch({
+            get: true,
+            ping: true,
+            tcp: true,
+            traceroute: true,
+            lookup: true,
+          })}>
+            выбрать все
+          </button>
         </motion.div>}
       </AnimatePresence>
     </div>
