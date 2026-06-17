@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-from fastapi import FastAPI
-from schema import ConnInfo, CheckInfo
-
-app = FastAPI(title="dnsure")
-
-@app.post("/api/agent_add")
-async def agent_add(conn_info: ConnInfo):
-    """ПОИНТ ДЛЯ РЕГИСТРАЦИИ АГЕНТА"""
-    ...
-=======
 import os
 import requests
 import asyncpg
@@ -58,32 +47,19 @@ async def agent_add(conn_info: ConnInfo):
                 port = EXCLUDED.port
         ''', conn_info.uuid, conn_info.agents_location, conn_info.host, conn_info.port)
     return {"message": "Agent registered successfully", "uuid": conn_info.uuid}
->>>>>>> 416e287 (add functionality)
 
 @app.delete("/api/agent_del")
 async def agent_del(conn_info: ConnInfo):
     """ПОИНТ ДЛЯ УДАЛЕНИЯ АГЕНТА"""
-<<<<<<< HEAD
-    ...
-=======
     async with app.state.db_pool.acquire() as conn:
         result = await conn.execute("DELETE FROM agents WHERE uuid = $1", conn_info.uuid)
         if result == "DELETE 0":
             raise HTTPException(status_code=404, detail="Agent not found")
     return {"message": "Agent deleted successfully"}
->>>>>>> 416e287 (add functionality)
 
 @app.get("/api/get_agents")
 async def get_agents():
     """ПОИНТ ДЛЯ ПОЛУЧЕНИЯ СПИСКА АГЕНТОВ"""
-<<<<<<< HEAD
-    ...
-
-@app.post("/api/start_chenk")
-async def start_chenk(check_info: CheckInfo):
-    """ПОИНТ ДЛЯ ЗАПУСКА ПРОВЕРКИ"""
-    ...
-=======
     async with app.state.db_pool.acquire() as conn:
         rows = await conn.fetch("SELECT * FROM agents")
         return {"agents": [dict(row) for row in rows]}
@@ -109,4 +85,3 @@ async def start_check(check_info: CheckInfo):
             results.append({"agent": agent["uuid"], "status": "error", "detail": str(e)})
 
     return {"results": results}
->>>>>>> 416e287 (add functionality)
