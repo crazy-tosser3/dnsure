@@ -10,8 +10,8 @@ export const getAgents = async () => {
   return res.data;
 }
 
-export const checkAdress = async (host:string, check_type:{get:boolean, ping:boolean, tcp:boolean, traceroute:boolean, lookup:boolean}, server_location:string) => {
-  const res = await api.post('/start_check', { host, check_type, server_location });
+export const checkAdress = async (host_to_check:string, check_type:{get:boolean, ping:boolean, tcp:boolean, traceroute:boolean, lookup:boolean}, agents_location:string) => {
+  const res = await api.post('/start_check', { host_to_check, check_type, agents_location });
   
   return res.data;
 }
