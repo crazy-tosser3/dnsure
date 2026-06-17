@@ -44,7 +44,7 @@ const Result = () => {
 
   return (
     <main className="flex gap-8 flex-col lg:flex-row py-8 px-4">
-      <div className="flex flex-col gap-4 items-center w-full max-w-150">
+      <div className="flex m-auto lg:m-0 flex-col gap-4 items-center w-full max-w-150">
         <span className="flex gap-2 items-center">
           <h1>Проверяем: {hostname ?? "отсутствует IP или хост"}</h1>
           {copyResult && (copyResult === "success" ? <span className="p-1">
