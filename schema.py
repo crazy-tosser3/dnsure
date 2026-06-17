@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+<<<<<<< HEAD
 
 class ConnInfo(BaseModel):
     host: str
@@ -12,4 +13,19 @@ class CheckInfo(BaseModel):
     server_location: str
 
 
+=======
+from typing import List
+
+class ConnInfo(BaseModel):
+    agents_location: str
+    host: str
+    port: int
+    uuid: str
+
+
+class CheckInfo(BaseModel):
+    host_to_check: str
+    check_type: List[str]
+    agents_location: str
+>>>>>>> 416e287 (add functionality)
 
