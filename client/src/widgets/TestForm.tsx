@@ -89,7 +89,7 @@ const TestForm = () => {
           value={selectedAgent}
           onChange={(e) => setSelectedAgent(e.target.value)}
           >
-            {agents && agents.map((agent:string, index:number) => <option key={index}>{agent}</option>)}
+            {agents.length && agents.map((agent:string, index:number) => <option key={index}>{agent}</option>)}
           </select>
           <FaChevronDown className="absolute right-4 pointer-events-none" />
         </div>

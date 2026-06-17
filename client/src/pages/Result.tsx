@@ -55,9 +55,14 @@ const Result = () => {
               <FaX />
             </span>
           )}
-          {!copyResult && hostname && <button className="p-1 rounded-md text-accent" onClick={() => hostname && navigator.clipboard.writeText(hostname).then(() => setCopyResult("success")).catch(() => setCopyResult("error"))}>
-            <FaCopy />
-          </button>}
+          {!copyResult && hostname && (
+            <button 
+            className="p-1 rounded-md text-accent" 
+            onClick={() => hostname && navigator.clipboard.writeText(hostname).then(() => setCopyResult("success")).catch(() => setCopyResult("error"))}
+            >
+              <FaCopy />
+            </button>
+          )}
         </span>
         <TestForm />
       </div>
