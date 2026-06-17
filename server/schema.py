@@ -1,15 +1,14 @@
 from pydantic import BaseModel
+from typing import Dict
 
 class ConnInfo(BaseModel):
+    agents_location: str
     host: str
     port: int
-    password: str
+    uuid: str
 
 
 class CheckInfo(BaseModel):
-    host: str
-    check_type: list
-    server_location: str
-
-
-
+    host_to_check: str
+    check_type: Dict[str, bool]
+    agents_location: str
