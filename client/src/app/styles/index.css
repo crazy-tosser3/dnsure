@@ -74,7 +74,7 @@ button._active, button.primary{
 
 *::selection{
   background-color: var(--color-gray-300);
-  color: var(--color-black-200);
+  color: var(--color-black-500);
 }
 
 input::placeholder{
