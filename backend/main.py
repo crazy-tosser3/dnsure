@@ -81,31 +81,27 @@ async def get_agents():
 async def start_check(check_info: CheckInfo):
     """ПОИНТ ДЛЯ ЗАПУСКА ПРОВЕРКИ"""
     async with app.state.db_pool.acquire() as conn:
-        target_agents = await conn.fetch('''
-            SELECT * FROM agents WHERE agents_location = $1
-        ''', check_info.agents_location)
+        agent = await conn.fetchrow('''
+            SELECT * FROM agents WHERE uuid = $1
+        ''', check_info.agent_uuid)
         
-    if not target_agents:
-        raise HTTPException(status_code=404, detail="No agents found for this location")
+    if not agent:
+        raise HTTPException(status_code=404, detail=f"Agent with UUID {check_info.agent_uuid} not found")
 
-    results = []
-    for agent in target_agents:
-        url = f"http://{agent['host']}:{agent['port']}/api/start_check"
-        payload = check_info.dict()
-        payload['agent_uuid'] = agent['uuid']
+    url = f"http://{agent['host']}:{agent['port']}/api/start_check"
+    payload = check_info.dict() 
+    payload["agents_location"] = agent["agents_location"]
 
+    try:
+        response = requests.post(url, json=payload, timeout=10)
+        response.raise_for_status()  # Проверка на HTTP ошибки (4xx, 5xx)
+        return {"agent": agent["uuid"], "status": "success", "data": response.json()}
+    except requests.exceptions.HTTPError as e:
+        error_data = {"agent": agent["uuid"], "status": "error", "detail": f"Agent returned status {e.response.status_code}"}
         try:
-            response = requests.post(url, json=payload, timeout=10)
-            response.raise_for_status()  # Проверка на HTTP ошибки (4xx, 5xx)
-            results.append({"agent": agent["uuid"], "status": "success", "data": response.json()})
-        except requests.exceptions.HTTPError as e:
-            error_data = {"agent": agent["uuid"], "status": "error", "detail": f"Agent returned status {e.response.status_code}"}
-            try:
-                error_data["agent_response"] = e.response.json()
-            except requests.exceptions.JSONDecodeError:
-                error_data["agent_response"] = e.response.text
-            results.append(error_data)
-        except requests.exceptions.RequestException as e:
-            results.append({"agent": agent["uuid"], "status": "error", "detail": str(e)})
-
-    return {"results": results}
+            error_data["agent_response"] = e.response.json()
+        except requests.exceptions.JSONDecodeError:
+            error_data["agent_response"] = e.response.text
+        raise HTTPException(status_code=e.response.status_code, detail=error_data)
+    except requests.exceptions.RequestException as e:
+        raise HTTPException(status_code=500, detail={"agent": agent["uuid"], "status": "error", "detail": str(e)})
