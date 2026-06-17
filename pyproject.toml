@@ -1,0 +1,14 @@
+[project]
+name = "agents"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "dnspython>=2.8.0",
+    "fastapi[standard]>=0.137.1",
+    "pydantic>=2.13.4",
+    "pythonping>=1.1.4",
+    "requests>=2.34.2",
+    "scapy>=2.7.0",
+]
