@@ -90,7 +90,6 @@ async def start_check(check_info: CheckInfo):
 
     url = f"http://{agent['host']}:{agent['port']}/api/start_check"
     payload = check_info.dict() 
-    payload["agents_location"] = agent["agents_location"]
 
     try:
         response = requests.post(url, json=payload, timeout=10)
