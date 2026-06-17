@@ -10,4 +10,4 @@ COPY . /app
 
 EXPOSE 8000
 
-CMD ["fastapi", "run", "main:app", "--reload"]
+CMD ["fastapi", "run"]

@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from schema import ConnInfo, CheckInfo
 
-load_dotenv('.env')
+load_dotenv('env_docker')
 
 app = FastAPI(title="dnsure")
 

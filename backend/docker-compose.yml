@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16
+    restart: always
+    env_file:
+      - env_docker
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d app_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    
+    container_name: database
+
+  backend:
+    build: .
+    env_file:
+      - env_docker
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
