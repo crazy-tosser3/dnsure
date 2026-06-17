@@ -76,7 +76,7 @@ const TestForm = () => {
           <select className="w-full py-3 px-6 rounded-full">
             <option>🇷🇺 Россия</option>
           </select>
-          <FaChevronDown className="absolute right-4" />
+          <FaChevronDown className="absolute right-4 pointer-events-none" />
         </div>
         <motion.button whileTap={{scale: 0.95}} type="submit" className="primary py-3 px-6 rounded-full justify-between">
           <FaRocket />
