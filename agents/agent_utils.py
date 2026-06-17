@@ -1,0 +1,96 @@
+import socket
+import time
+import requests
+from typing import List
+from pythonping import ping as pping
+from scapy.all import IP    , sr1
+from scapy.layers.inet import UDP
+
+MAX_HOPS = 30
+
+def check_http_https(host: str):
+    protocols = ['https://', 'http://']
+    timeout = 5
+    
+    for proto in protocols:
+        url = proto + host
+        try:
+            start_time = time.time()
+            requests.head(url, timeout=timeout, allow_redirects=True)
+            elapsed_time = (time.time() - start_time) * 1000
+            return round(elapsed_time)
+        except requests.exceptions.RequestException:
+            continue
+            
+    return False
+
+def check_ping(host: str):
+    try:
+        response_list = pping(host, count=3, timeout=2, verbose=False)
+        if response_list.success():
+            return round(response_list.rtt_avg_ms)
+        else:
+            return False
+    except Exception:
+        return False
+
+def check_tcp_port(host: str):
+    addr = host.split(":")
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(3)
+        start_time = time.time()
+        result = sock.connect_ex((addr[0], int(addr[1])))
+        elapsed_time = (time.time() - start_time) * 1000
+        sock.close()
+        if result == 0:
+            return round(elapsed_time)
+        else:
+            return False
+    except Exception:
+        return False
+
+def manual_traceroute(destination: str, max_hops: int = 30) -> List[str]:
+    reply_list = []
+    try:
+        destination_ip = socket.gethostbyname(destination)
+    except socket.gaierror:
+        return 
+
+    for ttl in range(1, max_hops + 1):
+        packet = IP(dst=destination_ip, ttl=ttl) / UDP(dport=33434)
+        reply = sr1(packet, verbose=0, timeout=2)
+        if reply is None:
+            continue
+        reply_list.append(reply.src)
+        if reply.type == 3:
+            break
+    return reply_list
+
+
+def check_traceroute(host: str):
+    try:
+        hops = manual_traceroute(host, MAX_HOPS)
+        if hops:
+            return hops
+        else:
+            return False
+    except Exception:
+        return False
+
+if __name__ == '__main__':
+    HOST_TO_TEST = "google.com"
+
+    print(f"Тестирование хоста: {HOST_TO_TEST}")
+
+    # 1. HTTP/HTTPS
+    print(f"HTTP/HTTPS: {check_http_https(HOST_TO_TEST)}")
+
+    # 2. Ping
+    print(f"Ping: {check_ping(HOST_TO_TEST)}")
+
+    # 3. TCP-порт
+    print(f"TCP: {check_tcp_port(f'{HOST_TO_TEST}:443')}")
+
+    # 4. Traceroute
+    print(f"Traceroute: {check_traceroute(HOST_TO_TEST)}")
