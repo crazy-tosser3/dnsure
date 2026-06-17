@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import Dict
 
 class ConnInfo(BaseModel):
     agents_location: str
@@ -10,6 +10,5 @@ class ConnInfo(BaseModel):
 
 class CheckInfo(BaseModel):
     host_to_check: str
-    check_type: List[str]
+    check_type: Dict[str, bool]
     agents_location: str
-

@@ -78,9 +78,20 @@ async def start_check(check_info: CheckInfo):
     results = []
     for agent in target_agents:
         url = f"http://{agent['host']}:{agent['port']}/api/start_check"
+        payload = check_info.dict()
+        payload['agent_uuid'] = agent['uuid']
+
         try:
-            response = requests.post(url, json=check_info.dict(), timeout=10)
+            response = requests.post(url, json=payload, timeout=10)
+            response.raise_for_status()  # Проверка на HTTP ошибки (4xx, 5xx)
             results.append({"agent": agent["uuid"], "status": "success", "data": response.json()})
+        except requests.exceptions.HTTPError as e:
+            error_data = {"agent": agent["uuid"], "status": "error", "detail": f"Agent returned status {e.response.status_code}"}
+            try:
+                error_data["agent_response"] = e.response.json()
+            except requests.exceptions.JSONDecodeError:
+                error_data["agent_response"] = e.response.text
+            results.append(error_data)
         except requests.exceptions.RequestException as e:
             results.append({"agent": agent["uuid"], "status": "error", "detail": str(e)})
 
