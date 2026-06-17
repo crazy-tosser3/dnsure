@@ -8,6 +8,11 @@ import { useEffect, useState } from "react"
 import { FaChevronDown, FaChevronUp, FaCircleNotch, FaRocket } from "react-icons/fa"
 import { useNavigate } from "react-router-dom";
 
+interface Agent {
+  uuid: string;
+  agents_location: string;
+}
+
 const ToFetchBtn = ({title, isOn, onCheck}:{title:string, isOn:boolean, onCheck:(value:boolean)=>void}) => {
   return (
     <div>
@@ -50,9 +55,14 @@ const TestForm = () => {
     if (!isValidDomain(domain)) {
       return;
     }
+
+    if (!selectedAgent) {
+      return;
+    }
+
     const query = new URLSearchParams({ host: domain, checkType: JSON.stringify(toFetch), serverLocation: selectedAgent })
 
-    navigate("/result"+query)
+    navigate("/result?"+query)
   }
 
   useEffect(() => {
@@ -87,9 +97,10 @@ const TestForm = () => {
           <select 
           className="w-full py-3 px-6 rounded-full"
           value={selectedAgent}
-          onChange={(e) => setSelectedAgent(e.target.value)}
+          onChange={(e) =>{alert(e.target.value); setSelectedAgent(e.target.value)}}
           >
-            {agents.length && agents.map((agent:string, index:number) => <option key={index}>{agent}</option>)}
+            <option value="">Из ...</option>
+            {agents.length > 0 && agents.map((agent:Agent) => <option value={agent.uuid} key={agent.uuid}>{agent.agents_location}</option>)}
           </select>
           <FaChevronDown className="absolute right-4 pointer-events-none" />
         </div>
