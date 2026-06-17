@@ -1,3 +1,4 @@
+import About from "@/pages/About"
 import Home from "@/pages/Home"
 import Result from "@/pages/Result"
 import Header from "@/widgets/Header"
@@ -12,9 +13,10 @@ function App() {
       <div className="flex-1 relative">
         <Sidebar />
         <Routes>
-          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/" element={<Navigate to="/home" replace />} />
           <Route path="/home" element={<Home />} />
           <Route path="/result" element={<Result />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </div>
       

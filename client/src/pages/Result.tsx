@@ -30,12 +30,13 @@ const Result = () => {
           <h1>Код проверки: {id ?? "отсутствует ID"}</h1>
           {copyResult && (copyResult === "success" ? <span className="p-1">
               <FaCheck />
-            </span> :
+            </span> 
+            :
             <span className="p-1">
               <FaX />
             </span>
           )}
-          {!copyResult && <button className="p-1 rounded-md" onClick={() => id && navigator.clipboard.writeText(id).then(() => setCopyResult("success")).catch(() => setCopyResult("error"))}>
+          {!copyResult && id && <button className="p-1 rounded-md text-accent" onClick={() => id && navigator.clipboard.writeText(id).then(() => setCopyResult("success")).catch(() => setCopyResult("error"))}>
             <FaCopy />
           </button>}
         </span>

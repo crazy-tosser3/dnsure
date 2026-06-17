@@ -13,7 +13,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <header className={cn("sticky top-0 flex gap-4 shadow-neu-bottom p-4", theme === "dark" ? "bg-white-200" : "bg-white-400")}>
+    <header className={cn("sticky top-0 flex gap-4 shadow-neu-bottom p-4 z-2000", theme === "dark" ? "bg-white-200" : "bg-white-400")}>
       <button 
       onClick={() => setSidebarIsOpen(!isOpen)} 
       className="p-1 rounded-md" 

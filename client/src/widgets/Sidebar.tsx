@@ -11,9 +11,9 @@ function Sidebar() {
   const isOpen = useGlobalStore(state => state.sidebarOpen);
 
   return ( 
-    <motion.aside initial={{width: 0}} animate={{width: isOpen ? 260 : 0}} className={cn("bg-white-400 max-w-64 absolute left-4 rounded-xl top-4 z-1999", isOpen ? "" : "pointer-events-none")}>
+    <motion.aside initial={{width: 0}} animate={{width: isOpen ? 260 : 0}} className={cn("bg-white-400 max-w-64 fixed top-12 left-12 rounded-xl z-2001", isOpen ? "" : "pointer-events-none")}>
       <AnimatePresence>
-        {isOpen && <motion.nav exit={{opacity: 0}} className="p-4 flex flex-col h-full gap-2 sticky top-0 overflow-hidden">
+        {isOpen && <motion.nav exit={{opacity: 0}} className="p-4 flex flex-col h-full gap-2 overflow-hidden">
           {navData.map((item, index) => (
             <motion.button 
             initial={{x: 50, opacity: 0}} 
