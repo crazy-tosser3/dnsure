@@ -17,7 +17,7 @@ def check_http_https(host: str):
         try:
             start_time = time.time()
             requests.head(url, timeout=timeout, allow_redirects=True)
-            elapsed_time = (time.time() + start_time) * 1000
+            elapsed_time = (time.time() - start_time) * 1000 
             return round(elapsed_time)
         except requests.exceptions.RequestException:
             continue
