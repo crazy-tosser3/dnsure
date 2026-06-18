@@ -72,7 +72,7 @@ const Result = () => {
       : 
       <motion.div initial={{opacity: 0}} animate={{opacity: 1}} className="w-full max-w-150 mx-auto h-fit bg-white-400 flex flex-col gap-8 p-4 rounded-4xl shadow-neu-soft">
           <h1 className="text-2xl">Отчет о проверке</h1>
-          {result.status === "success" ? <div className="flex gap-4"><div className="py-2 px-1 rounded-full bg-green-300" /><h1>Успешно</h1></div> : <div className="flex gap-4"><div className="py-2 px-1 rounded-full bg-red-300" /><h1>Есть проблемы</h1></div>}
+          {result.status && result.status === "success" ? <div className="flex gap-4"><div className="py-2 px-1 rounded-full bg-green-300" /><h1>Успешно</h1></div> : <div className="flex gap-4"><div className="py-2 px-1 rounded-full bg-red-300" /><h1>Есть проблемы</h1></div>}
           <ul className="p-2 rounded-2xl bg-white-300">
             {result.data.results.http && <li>Http: {result.data.results.http}</li>}
             {result.data.results.https && <li>Https: {result.data.results.https}</li>}
