@@ -38,7 +38,22 @@ services:
       
     ports:
       - "80:80"
+      - "443:443"
 
+    volumes:
+      - certbot_html:/usr/share/nginx/html
+      - certbot_certs:/etc/letsencrypt
+
+  certbot:
+      image: certbot/certbot:v5.4.0
+      container_name: certbot
+      restart: always
+      volumes:
+        - certbot_html:/usr/share/nginx/html
+        - certbot_certs:/etc/letsencrypt
+      entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 volumes:
   postgres_data:
+  certbot_html:
+  certbot_certs:
