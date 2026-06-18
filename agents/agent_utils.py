@@ -59,7 +59,7 @@ def manual_traceroute(destination: str, max_hops: int = 30) -> List[str]:
 
     for ttl in range(1, max_hops + 1):
         packet = IP(dst=destination_ip, ttl=ttl) / UDP(dport=33434)
-        reply = sr1(packet, verbose=0, timeout=2)
+        reply = sr1(packet, verbose=0, timeout=60)
         if reply is None:
             continue
         reply_list.append(reply.src)

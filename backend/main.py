@@ -51,8 +51,10 @@ async def agent_add(conn_info: ConnInfo):
     try:
         response = requests.post(url, json=payload, timeout=5)
         response.raise_for_status()
-    except requests.exceptions.HTTPError as e: 
-        raise HTTPException(status_code=e.response.status_code, detail=f"Agent returned status {e.response.status_code}")
+    except requests.exceptions.RequestException as e:
+        status_code = e.response.status_code if e.response is not None else 500
+        detail_message = f"Failed to connect to agent or agent returned an error: {e}"
+        raise HTTPException(status_code=status_code, detail=detail_message)
 
     async with app.state.db_pool.acquire() as conn:
         await conn.execute('''
