@@ -15,6 +15,7 @@ agent_uuid = None
 
 @app.on_event("startup")
 async def startup_event():
+    global agent_uuid
     if not UUID_FILE.exists():
         agent_uuid = str(uuid.uuid4())
         UUID_FILE.write_text(agent_uuid)
@@ -22,7 +23,7 @@ async def startup_event():
     else:
         agent_uuid = UUID_FILE.read_text().strip()
         print(f"Загружен UUID агента: {agent_uuid}")
-    
+
     app.state.agent_uuid = agent_uuid
 
 @app.post("/api/start_check")
