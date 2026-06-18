@@ -10,14 +10,10 @@ load_dotenv('env_docker')
 
 app = FastAPI(title="dnsure")
 
-origins = [
-    "http://localhost:5173",
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -92,8 +88,8 @@ async def start_check(check_info: CheckInfo):
     payload = check_info.dict() 
 
     try:
-        response = requests.post(url, json=payload, timeout=10)
-        response.raise_for_status()  # Проверка на HTTP ошибки (4xx, 5xx)
+        response = requests.post(url, json=payload, timeout=60)
+        response.raise_for_status()
         return {"agent": agent["uuid"], "status": "success", "data": response.json()}
     except requests.exceptions.HTTPError as e:
         error_data = {"agent": agent["uuid"], "status": "error", "detail": f"Agent returned status {e.response.status_code}"}
