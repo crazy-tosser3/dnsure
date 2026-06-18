@@ -4,7 +4,7 @@ import asyncpg
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from schema import ConnInfo, CheckInfo
+from schema import ConnInfo, CheckInfo, DelInfo
 
 load_dotenv('env_docker')
 
@@ -46,6 +46,14 @@ async def shutdown_event():
 @app.post("/api/agent_add")
 async def agent_add(conn_info: ConnInfo):
     """ПОИНТ ДЛЯ РЕГИСТРАЦИИ АГЕНТА"""
+    url = f"http://{conn_info.host}:{conn_info.port}/api/heartbeat"
+    payload = {"agent_uuid": conn_info.uuid}
+    try:
+        response = requests.post(url, json=payload, timeout=5)
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as e: 
+        raise HTTPException(status_code=e.response.status_code, detail=f"Agent returned status {e.response.status_code}")
+
     async with app.state.db_pool.acquire() as conn:
         await conn.execute('''
             INSERT INTO agents (uuid, agents_location, host, port)
@@ -58,10 +66,10 @@ async def agent_add(conn_info: ConnInfo):
     return {"message": "Agent registered successfully", "uuid": conn_info.uuid}
 
 @app.delete("/api/agent_del")
-async def agent_del(conn_info: ConnInfo):
+async def agent_del(del_info: DelInfo):
     """ПОИНТ ДЛЯ УДАЛЕНИЯ АГЕНТА"""
     async with app.state.db_pool.acquire() as conn:
-        result = await conn.execute("DELETE FROM agents WHERE uuid = $1", conn_info.uuid)
+        result = await conn.execute("DELETE FROM agents WHERE uuid = $1", del_info.uuid)
         if result == "DELETE 0":
             raise HTTPException(status_code=404, detail="Agent not found")
     return {"message": "Agent deleted successfully"}

@@ -3,12 +3,14 @@ import uuid
 from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.concurrency import run_in_threadpool
-from schemas import Check
+from schemas import Check, Heartbeat
 from agent_utils import check_http_https, check_ping, check_tcp_port, check_traceroute
 
 app = FastAPI(title="dnsure-agent")
 
 UUID_FILE = Path("agent.uuid")
+
+agent_uuid = None
 
 
 @app.on_event("startup")
@@ -63,3 +65,11 @@ async def start_check(check: Check):
         "host_checked": check.host_to_check,
         "results": results
     }
+
+@app.post("/api/heartbeat")
+async def heartbeat(heartbeat: Heartbeat):
+    if heartbeat.agent_uuid == app.state.agent_uuid:
+        return {"status": "ok"}
+        
+    else:
+        pass

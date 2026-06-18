@@ -7,6 +7,10 @@ class ConnInfo(BaseModel):
     port: int
     uuid: str
 
+class DelInfo(BaseModel):
+    uuid: str
+
+
 class CheckInfo(BaseModel):
     host_to_check: str
     check_type: Dict[str, bool]
