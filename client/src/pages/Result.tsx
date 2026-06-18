@@ -77,12 +77,12 @@ const Result = () => {
             {result.data.results.http && <li>Http: {result.data.results.http}</li>}
             {result.data.results.https && <li>Https: {result.data.results.https}</li>}
             {result.data.results.tcp && <li>Tcp: {result.data.results.tcp}</li>}
-            {result.data.results.traceroute && <li>Traceroute: {result.data.results.traceroute}</li>}
+            {result.data.results.traceroute && <li className="word-break">Traceroute: {result.data.results.traceroute}</li>}
             {result.data.results.ping && <li>Ping: {result.data.results.ping}</li>}
           </ul>
       </motion.div>
       )}
-      {isError && <div className="w-full bg-red-400 flex items-center justify-center p-4 rounded-4xl shadow-neu-soft">Что-то пошло не так. Попробуйте позже</div>}
+      {isError && <div className="w-full h-fit bg-red-400 flex items-center justify-center p-4 rounded-4xl shadow-neu-soft">Что-то пошло не так. Попробуйте позже</div>}
     </main>
   )
 }
