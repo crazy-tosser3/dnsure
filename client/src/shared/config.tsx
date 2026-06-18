@@ -2,11 +2,11 @@ import { FaInfoCircle } from "react-icons/fa"
 import { FaEarthEurope } from "react-icons/fa6"
 
 export const toFetchData = [
-  "get",
+  "http",
+  "https",
   "ping",
   "tcp",
   "traceroute",
-  "lookup",
 ]
 
 export const navData = [

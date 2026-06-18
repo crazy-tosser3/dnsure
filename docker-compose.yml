@@ -26,18 +26,18 @@ services:
         condition: service_healthy
     container_name: backend
 
-  frontend:
-    container_name: frontend
-    build: ./client
-    depends_on:
-      - backend
+  # frontend:
+  #   container_name: frontend
+  #   build: ./client
+  #   depends_on:
+  #     - backend
 
-    restart: always
-    environment:
-      - VITE_API_URL=http://localhost:8000/api
+  #   restart: always
+  #   environment:
+  #     - VITE_API_URL=http://localhost:8000/api
       
-    ports:
-      - "5173:5173"
+  #   ports:
+  #     - "5173:5173"
 
 
 volumes:

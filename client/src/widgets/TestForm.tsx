@@ -33,11 +33,11 @@ const TestForm = () => {
   const [selectedAgent, setSelectedAgent] = useState("");
 
   const [toFetch, setToFetch] = useState({
-    get: true,
+    http: true,
+    https: true,
     ping: true,
     tcp: false,
     traceroute: false,
-    lookup: false,
   });
 
   function validateAdress(domain:string){
@@ -97,7 +97,7 @@ const TestForm = () => {
           <select 
           className="w-full py-3 px-6 rounded-full"
           value={selectedAgent}
-          onChange={(e) =>{alert(e.target.value); setSelectedAgent(e.target.value)}}
+          onChange={(e) => setSelectedAgent(e.target.value)}
           >
             <option value="">Из ...</option>
             {agents.length > 0 && agents.map((agent:Agent) => <option value={agent.uuid} key={agent.uuid}>{agent.agents_location}</option>)}
@@ -130,11 +130,11 @@ const TestForm = () => {
             />
           ))}
           <motion.button whileTap={{scale: 0.95}} className="border border-accent rounded-full justify-center" onClick={() => setToFetch({
-            get: true,
+            http: true,
+            https: true,
             ping: true,
             tcp: true,
             traceroute: true,
-            lookup: true,
           })}>
             выбрать все
           </motion.button>
