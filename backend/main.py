@@ -8,11 +8,18 @@ from schema import ConnInfo, CheckInfo, DelInfo
 
 load_dotenv('env_docker')
 
+origins = [
+    "http://localhost:80",
+    "https://185.255.134.189",
+    "https://185.255.134.189:443",
+    
+]
+
 app = FastAPI(title="dnsure")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -95,6 +102,7 @@ async def start_check(check_info: CheckInfo):
         raise HTTPException(status_code=404, detail=f"Agent with UUID {check_info.agent_uuid} not found")
 
     url = f"http://{agent['host']}:{agent['port']}/api/start_check"
+    
     payload = check_info.dict() 
 
     try:
